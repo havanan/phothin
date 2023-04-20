@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "InspirePage",
@@ -23,8 +23,11 @@ export default {
     ...mapState("modules/auth", ["authInfo"]),
   },
   methods: {
-    getAuthInfo() {
-      console.log(this.authInfo);
+    ...mapActions("modules/auth", ["fetchAuthInfo"]),
+    async getAuthInfo() {
+      console.log(this.authInfo.name);
+      await this.fetchAuthInfo({ name: "kẹc" });
+      console.log(this.authInfo.name);
     },
   },
 };
