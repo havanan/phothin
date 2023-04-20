@@ -5,7 +5,7 @@
       <blockquote class="blockquote">
         &#8220;First, solve the problem. Then, write the code.&#8221;
         <footer>
-          <small>
+          <small @click="getAuthInfo()">
             <em>&mdash;John Johnson</em>
           </small>
         </footer>
@@ -20,9 +20,11 @@ import { mapState } from "vuex";
 export default {
   name: "InspirePage",
   computed: {
-    ...mapState("auth", ["authInfo"]),
-    auth() {
-      return this.authInfo;
+    ...mapState("modules/auth", ["authInfo"]),
+  },
+  methods: {
+    getAuthInfo() {
+      console.log(this.authInfo);
     },
   },
 };
