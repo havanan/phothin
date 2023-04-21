@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\Admin\Http\Controllers\Auth\LoginController;
+use Modules\Admin\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,26 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/admin', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix' => 'admin'
+], function () {
+    // Chưa đăng nhập
+    Route::group([
+        'prefix' => 'auth'
+    ], function () {
+        Route::post('login',        [LoginController::class, 'login']);
+    });
+    // Đã đăng nhập
+    Route::group([
+        'middleware' => 'auth.admin'
+    ], function () {
+
+        Route::group([
+            'prefix' => 'auth'
+        ], function () {
+            Route::post('user',      [UserController::class, 'user']);
+            Route::post('logout',    [LoginController::class, 'logout']);
+            Route::get('token',      [LoginController::class, 'refresh']);
+        });
+    });
 });

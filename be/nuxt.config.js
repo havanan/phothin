@@ -27,7 +27,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/repositories.js", "~/plugins/axios.js"],
+  plugins: [
+    "~/plugins/repositories.js",
+    "~/plugins/axios.js",
+    "~/plugins/auth.js",
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -38,7 +42,7 @@ export default {
     "@nuxtjs/vuetify",
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "@nuxtjs/i18n"],
+  modules: ["@nuxtjs/axios", "@nuxtjs/i18n", "@nuxtjs/auth-next"],
   axios: {
     baseURL: process.env.BASE_URL,
     retry: { retries: 3 },
@@ -51,7 +55,33 @@ export default {
   i18n: {
     /* module options */
   },
-
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "api/admin/auth/login",
+            method: "post",
+            propertyName: "access",
+          },
+          user: {
+            url: "api/admin/auth/user",
+            method: "get",
+            propertyName: "users",
+          },
+          tokenRequired: true,
+          logout: false,
+        },
+      },
+      watchLoggedIn: true,
+      redirect: {
+        login: "/login",
+        logout: "/",
+        callback: "/login",
+        home: "/",
+      },
+    },
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
