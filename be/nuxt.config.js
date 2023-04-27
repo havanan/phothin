@@ -73,13 +73,20 @@ export default {
           logout: false,
         },
       },
-      watchLoggedIn: true,
-      redirect: {
-        login: "/login",
-        logout: "/",
-        callback: "/login",
-        home: "/",
-      },
+      // watchLoggedIn: false,
+      // redirect: {
+      //   login: "/login",
+      //   logout: "/",
+      //   callback: "/login",
+      //   home: "/",
+      // },
+    },
+    token: {
+      prefix: "_token.",
+      global: true,
+    },
+    localStorage: {
+      prefix: "auth.",
     },
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
