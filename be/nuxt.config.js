@@ -3,7 +3,9 @@ import colors from "vuetify/es5/util/colors";
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
+  server: {
+    port: process.env.BACKEND_PORT || 3000,
+  },
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 
@@ -20,13 +22,11 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/logo.ico" }],
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ["@/assets/sass/auth"],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/repositories.js",
     "~/plugins/axios.js",
@@ -40,9 +40,13 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     "@nuxtjs/vuetify",
+    "@nuxtjs/moment",
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ["@nuxtjs/axios", "@nuxtjs/i18n", "@nuxtjs/auth-next"],
+  moment: {
+    defaultLocale: "vi",
+  },
   axios: {
     baseURL: process.env.BASE_URL,
     retry: { retries: 3 },
@@ -54,6 +58,9 @@ export default {
   },
   i18n: {
     /* module options */
+  },
+  router: {
+    middleware: ["auth"],
   },
   auth: {
     strategies: {
@@ -91,9 +98,9 @@ export default {
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ["~/assets/variables.scss"],
+    customVariables: ["~/assets/sass/variables.scss"],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

@@ -1,0 +1,15 @@
+.auth-layout {
+  background-color: white;
+  .content {
+    height: 100%;
+    .login-form {
+      height: 100%;
+      .login-logo {
+        max-width: 8em;
+      }
+    }
+  }
+  .footer {
+    justify-content: center;
+  }
+}
