@@ -32,9 +32,9 @@ Route::group([
         Route::group([
             'prefix' => 'auth'
         ], function () {
-            Route::post('user',      [UserController::class, 'user']);
-            Route::post('logout',    [LoginController::class, 'logout']);
+            Route::get('user',       [UserController::class, 'user']);
             Route::get('token',      [LoginController::class, 'refresh']);
+            Route::post('logout',    [LoginController::class, 'logout']);
         });
     });
 });

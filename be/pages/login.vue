@@ -1,7 +1,6 @@
 <template>
   <div class="login-form d-flex flex-column align-center justify-center">
     <img src="~/assets/image/logo.png" class="mb-5 login-logo" />
-    <Notification :message="error" v-if="error" />
     <v-card>
       <v-tabs
         v-model="tab"
@@ -13,8 +12,8 @@
       >
         <v-tabs-slider color="purple darken-4"></v-tabs-slider>
         <v-tab v-for="(i, index) in tabs" :key="index">
-          <v-icon>{{ i.icon }}</v-icon>
-          <div class="caption py-1">{{ i.name }}</div>
+          <!-- <v-icon>{{ i.icon }}</v-icon> -->
+          {{ i.name }}
         </v-tab>
         <v-tab-item>
           <v-card class="px-4">
@@ -139,49 +138,49 @@
 </template>
 
 <script>
-import Notification from "~/components/Notification";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
   layout: "auth",
-  components: {
-    Notification,
+  // middleware: "guest",
+  head() {
+    return {
+      title: "Đăng Nhập",
+    };
   },
-
   data() {
     return {
-      logoUrl: "@/assets/image/logo.png",
-      email: "",
-      password: "",
-      error: null,
+      email: "admin@gmail.com",
+      password: "abcd1234",
       tab: 0,
       tabs: [
-        { name: "Đăng Nhập", icon: "mdi-account" },
+        { name: "Đăng Nhập Quản Trị", icon: "mdi-account" },
         // { name: "Đăng Ký", icon: "mdi-account-outline" },
       ],
       valid: true,
       firstName: "",
       lastName: "",
-      email: "",
       verify: "",
       loginEmailRules: [
         (v) => !!v || "Required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        (v) => /.+@.+\..+/.test(v) || "E-mail không đúng định dạng",
       ],
       emailRules: [
         (v) => !!v || "Required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        (v) => /.+@.+\..+/.test(v) || "E-mail không đúng định dạng",
       ],
 
       show1: false,
       rules: {
-        required: (value) => !!value || "Required.",
-        min: (v) => (v && v.length >= 8) || "Min 8 characters",
+        required: (value) => !!value || "Vui lòng không để trống",
+        min: (v) => (v && v.length >= 8) || "Tối thiểu 8 kí tự",
       },
     };
   },
-
   methods: {
+    ...mapActions("modules/auth", ["fetchAuthInfo"]),
+
     validate() {
       if (this.$refs.loginForm.validate()) {
         this.login();
@@ -195,16 +194,15 @@ export default {
     },
     async login() {
       try {
-        const response = await this.$axios.post("accounts/token/", {
-          email: this.email,
-          password: this.password,
+        const response = await this.$auth.loginWith("local", {
+          data: {
+            email: this.email,
+            password: this.password,
+          },
         });
-
-        await this.$auth.setToken("local", "Bearer " + response.data.access);
-        await this.$auth.setRefreshToken("local", response.data.refresh);
-        await this.$auth.setUserToken(response.data.access);
-      } catch (e) {
-        this.error = "Username or Password not valid";
+        this.$toast.success("Đăng nhập thành công").goAway(1000);
+      } catch (error) {
+        this.$toast.error("Lỗi đăng nhập").goAway(1300);
       }
     },
   },

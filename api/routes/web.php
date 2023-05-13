@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // dd(bcrypt('abcd1234'));
     return view('welcome');
 });

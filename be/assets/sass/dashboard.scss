@@ -1,0 +1,15 @@
+.dashboard {
+  .left-navigation {
+    border-right: 2.5px solid #f5f5f5;
+    .nav-logo {
+      margin-top: 0.5em;
+      img {
+        max-width: 65px;
+      }
+    }
+  }
+  &-footer {
+    width: 100%;
+    text-align: center;
+  }
+}

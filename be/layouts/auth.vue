@@ -8,7 +8,7 @@
       </v-container>
     </v-main>
     <v-footer app class="footer d-flex justify-center">
-      <h4>Coppy right by Anhv @{{ $moment().format("YYYY") }}</h4>
+      <span>Coppy right by Anhv &copy; {{ $moment().format("YYYY") }}</span>
     </v-footer>
   </v-app>
 </template>

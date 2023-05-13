@@ -29,7 +29,6 @@ class AdminService extends BaseService
      */
     public static function responseWithToken($token)
     {
-        dd($token);
         return new JsonResponse([
             'access_token' => $token,
             'token_type' => 'bearer',

@@ -33,7 +33,11 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Modules\\": "Modules/"
-        }
+        },
+        "files": [
+            "config/constants.php",
+            "app/Lib/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

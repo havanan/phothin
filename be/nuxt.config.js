@@ -8,13 +8,12 @@ export default {
   },
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - phothin",
-    title: "phothin",
+    titleTemplate: "%s - Quản Trị Phở Thìn Hà Nội",
+    title: "",
     htmlAttrs: {
-      lang: "en",
+      lang: "vi",
     },
     meta: [
       { charset: "utf-8" },
@@ -25,17 +24,16 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/logo.ico" }],
   },
 
-  css: ["@/assets/sass/auth"],
+  css: ["@/assets/sass/auth", "@/assets/sass/dashboard"],
 
   plugins: [
     "~/plugins/repositories.js",
-    "~/plugins/axios.js",
+    // "~/plugins/axios.js",
     "~/plugins/auth.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
@@ -43,57 +41,68 @@ export default {
     "@nuxtjs/moment",
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "@nuxtjs/i18n", "@nuxtjs/auth-next"],
+  modules: [
+    "@nuxtjs/axios",
+    "@nuxtjs/i18n",
+    "@nuxtjs/auth-next",
+    "@nuxtjs/toast",
+  ],
   moment: {
     defaultLocale: "vi",
   },
   axios: {
     baseURL: process.env.BASE_URL,
     retry: { retries: 3 },
-  },
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.BASE_URL,
+    headers: {
+      common: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     },
   },
   i18n: {
     /* module options */
   },
-  router: {
-    middleware: ["auth"],
+  toast: {
+    position: "top-right",
+    register: [
+      // Register custom toasts
+      // {
+      //   name: "my-error",
+      //   message: "Oops...Something went wrong",
+      //   options: {
+      //     type: "error",
+      //   },
+      // },
+    ],
   },
   auth: {
     strategies: {
       local: {
+        token: {
+          property: "access_token",
+          // maxAge: 1800,
+        },
+        user: {
+          property: "data",
+          autoFetch: true,
+        },
         endpoints: {
           login: {
-            url: "api/admin/auth/login",
+            url: "admin/auth/login",
             method: "post",
-            propertyName: "access",
           },
-          user: {
-            url: "api/admin/auth/user",
-            method: "get",
-            propertyName: "users",
-          },
-          tokenRequired: true,
-          logout: false,
+          logout: { url: "admin/auth/logout", method: "post" },
+          user: { url: "admin/auth/user", method: "get", data: "data" },
         },
       },
-      // watchLoggedIn: false,
-      // redirect: {
-      //   login: "/login",
-      //   logout: "/",
-      //   callback: "/login",
-      //   home: "/",
-      // },
     },
-    token: {
-      prefix: "_token.",
-      global: true,
-    },
-    localStorage: {
-      prefix: "auth.",
+    watchLoggedIn: true,
+    redirect: {
+      login: "/login",
+      logout: "/",
+      callback: "/login",
+      home: "/",
     },
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -116,5 +125,7 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ["@nuxtjs/auth"],
+  },
 };

@@ -32,7 +32,7 @@ class LoginController extends BaseController
             $token = auth('admin')->attempt($credentials);
             if ($token) {
                 Log::info('admin login with email: ' . $credentials['email']);
-                return AdminService::responseWithToken($token);
+                return $this->adminService->responseWithToken($token);
             }
             return $this->statusNG(['error_code' => ERROR_CODE['PASSWORD_INCORRECT']], __('lang.api.password_incorrect'));
         } catch (\Exception $ex) {
