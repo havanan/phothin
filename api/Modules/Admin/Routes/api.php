@@ -36,5 +36,10 @@ Route::group([
             Route::get('token',      [LoginController::class, 'refresh']);
             Route::post('logout',    [LoginController::class, 'logout']);
         });
+        Route::group([
+            'prefix' => 'user'
+        ], function () {
+            Route::post('change-passw', [UserController::class, 'changePassw']);
+        });
     });
 });

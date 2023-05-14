@@ -46,7 +46,7 @@
         </template>
 
         <v-list>
-          <v-list-item to="user/profile" exact>
+          <v-list-item to="/user/profile" exact>
             <v-list-item-content>
               <v-list-item-title>Trang cá nhân</v-list-item-title>
             </v-list-item-content>
@@ -62,7 +62,7 @@
       </v-menu>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fluid>
         <Nuxt />
       </v-container>
     </v-main>
@@ -88,11 +88,6 @@
 export default {
   name: "DefaultLayout",
   middleware: "auth",
-  head() {
-    return {
-      title: "Dashboard",
-    };
-  },
   data() {
     return {
       clipped: false,

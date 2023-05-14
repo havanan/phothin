@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\Admin\Repositories\Admin\AdminRepository;
+use Modules\Admin\Transformers\AuthAdminTransformers;
 
 class AdminService extends BaseService
 {
@@ -33,7 +34,7 @@ class AdminService extends BaseService
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('admin')->factory()->getTTL() * 60,
-            'user' => auth('admin')->user()
+            'user' => (new AuthAdminTransformers())->transform(auth('admin')->user())
         ]);
     }
 

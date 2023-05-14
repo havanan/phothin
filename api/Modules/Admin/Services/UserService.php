@@ -87,4 +87,19 @@ class UserService extends BaseService
             return $this->statusNG(null, $e->getMessage());
         }
     }
+    /**
+     * @param int $userId
+     * @param string $newPassword
+     * @return JsonResponse
+     */
+    public function changePassword($userId, $newPassword)
+    {
+        try {
+            $params = ['password' => bcrypt($newPassword)];
+            $update = $this->userRepository->update($userId, $params);
+            return $this->statusOK($update, 'Thay đổi mật khẩu thành công');
+        } catch (\Exception $e) {
+            return $this->statusNG(null, $e->getMessage());
+        }
+    }
 }

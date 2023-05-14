@@ -6,6 +6,7 @@ use App\Base\Controller\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Admin\Filters\UserFilter;
+use Modules\Admin\Http\Requests\User\ChangePasswordRequest;
 use Modules\Admin\Http\Requests\User\UpdateUserRequest;
 use Modules\Admin\Services\UserService;
 
@@ -78,5 +79,16 @@ class UserController extends BaseController
     public function getLoginFeToken($id)
     {
         return $this->userService->loginWithUserId($id);
+    }
+    /**
+     * Chage Password
+     *
+     * @return JsonResponse
+     */
+    public function changePassw(ChangePasswordRequest $request)
+    {
+        $newPasss = $request->get('new');
+        $userCurrent = auth('admin')->user();
+        return $this->userService->changePassword($userCurrent->id, $newPasss);
     }
 }
