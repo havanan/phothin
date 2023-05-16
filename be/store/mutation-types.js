@@ -8,6 +8,8 @@ export const SHOW_SUCCESS = "SHOW_SUCCESS";
 export const SUCCESS = "SUCCESS";
 // loading
 export const SHOW_LOADING = "SHOW_LOADING";
+// notification service
+export const NOTIFICATION_MESSAGES = "NOTIFICATION_MESSAGES";
 // auth
 export const AUTH_INFO = "AUTH_INFO";
 export const IS_LOGGED_IN = "IS_LOGGED_IN";

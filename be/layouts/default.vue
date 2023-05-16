@@ -14,23 +14,19 @@
             ><img src="~/assets/image/logo.png" class="mb-5 nav-logo"
           /></nuxt-link>
         </div>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <!-- menu list -->
+        <div v-for="item in items" :key="item.title">
+          <template v-if="item.childs">
+            <Group :item="item"></Group>
+          </template>
+          <template v-else>
+            <Single :item="item"></Single>
+          </template>
+        </div>
+        <!-- menu list -->
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar class="header-top" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
@@ -47,11 +43,15 @@
 
         <v-list>
           <v-list-item to="/user/profile" exact>
+            <v-list-item-icon><v-icon>mdi-account</v-icon></v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Trang cá nhân</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item exact>
+            <v-list-item-icon
+              ><v-icon>mdi-exit-to-app</v-icon></v-list-item-icon
+            >
             <v-list-item-content>
               <v-list-item-title @click="handleLogout()"
                 >Đăng xuất</v-list-item-title
@@ -61,7 +61,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-main>
+    <v-main class="main-content">
       <v-container fluid>
         <Nuxt />
       </v-container>
@@ -85,9 +85,12 @@
 </template>
 
 <script>
+import Group from "./common/navigation/Group.vue";
+import Single from "./common/navigation/Single.vue";
 export default {
   name: "DefaultLayout",
   middleware: "auth",
+  components: { Group, Single },
   data() {
     return {
       clipped: false,
@@ -96,19 +99,115 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
+          title: "Dashboard",
+          url: "/",
+        },
+
+        {
+          icon: "mdi-package-variant",
+          title: "Sản phẩm",
+
+          childs: [
+            { title: "Danh sách", url: "/product" },
+            { title: "Phân loại", url: "/product/category" },
+            { title: "Thêm mới", url: "/product/create" },
+            { title: "Trạng thái", url: "/bill/status" },
+          ],
+        },
+
+        {
+          icon: "mdi-note-multiple-outline",
+          title: "Đơn hàng",
+          childs: [
+            { title: "Danh sách", url: "/bill" },
+            { title: "Phân loại", url: "/bill/category" },
+            { title: "Trạng thái", url: "/bill/status" },
+          ],
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          icon: "mdi-calendar-plus",
+          title: "Đặt lịch",
+          childs: [
+            { title: "Danh sách", url: "/booking" },
+            // { title: "Thêm mới", url: "/bill/create" },
+          ],
+        },
+        {
+          icon: "mdi-chart-line",
+          title: "Thống kê",
+          childs: [
+            { title: "Doanh thu", url: "/report" },
+            { title: "Tăng trưởng", url: "/report/growth" },
+          ],
+        },
+        {
+          icon: "mdi-newspaper",
+          title: "Tin tức",
+
+          childs: [
+            { title: "Danh sách", url: "/news" },
+            { title: "Thêm mới", url: "/news/create" },
+            { title: "Phân loại", url: "/news/category" },
+          ],
+        },
+        {
+          icon: "mdi-developer-board",
+          title: "Voucher",
+          childs: [
+            { title: "Danh sách", url: "/voucher" },
+            { title: "Thêm mới", url: "/voucher/create" },
+          ],
+        },
+        {
+          icon: "mdi-tooltip-text",
+          title: "Bình luận",
+          childs: [
+            { title: "Chờ duyệt", url: "/comment/waiting" },
+            { title: "Sản phẩm", url: "/comment/product" },
+            { title: "Tin tức", url: "/comment/news" },
+          ],
+        },
+        {
+          icon: "mdi-account",
+          title: "Khách hàng",
+
+          childs: [
+            { title: "Danh sách", url: "/user" },
+            { title: "Thêm mới", url: "/user/create" },
+          ],
+        },
+        {
+          icon: "mdi-nature-people",
+          title: "Đại lý",
+
+          childs: [
+            { title: "Danh sách", url: "/user" },
+            { title: "Thêm mới", url: "/user/create" },
+          ],
+        },
+        {
+          icon: "mdi-account-network",
+          title: "Tk hệ thống",
+          childs: [
+            { title: "Danh sách", url: "/admin" },
+            { title: "Thêm mới", url: "/admin/create" },
+          ],
+        },
+        {
+          icon: "mdi-wrench",
+          title: "Cài đặt",
+          url: "/inspire",
+          childs: [
+            { title: "Hệ thống", url: "/setting" },
+            { title: "Cấu hình SMS", url: "/setting/sms" },
+            { title: "Gửi Mail", url: "/setting/mail" },
+          ],
         },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Quản trị Phở Thìn",
+      title: `Quản trị ${process.env.siteName}`,
     };
   },
   methods: {

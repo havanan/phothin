@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Http\Requests\User;
+namespace Modules\Admin\Http\Requests\Admin;
 
 use App\Base\Request\ApiRequest;
 use Illuminate\Support\Facades\Hash;

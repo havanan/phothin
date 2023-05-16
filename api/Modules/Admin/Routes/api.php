@@ -1,19 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Admin\Http\Controllers\AdminController;
 use Modules\Admin\Http\Controllers\Auth\LoginController;
 use Modules\Admin\Http\Controllers\UserController;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::group([
     'prefix' => 'admin'
@@ -40,6 +30,12 @@ Route::group([
             'prefix' => 'user'
         ], function () {
             Route::post('change-passw', [UserController::class, 'changePassw']);
+        });
+        Route::group([
+            'prefix' => 'admin-user'
+        ], function () {
+            Route::post('change-passw', [AdminController::class, 'changePassw']);
+            Route::post('change-info',  [AdminController::class, 'changeInfo']);
         });
     });
 });

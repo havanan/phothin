@@ -63,30 +63,36 @@ class AdminService extends BaseService
     }
 
     /**
-     * changePassword
-     *
+     * @param int $userId
+     * @param string $newPassword
      * @return JsonResponse
      */
 
-    public function updatePassword($request)
+    public function updatePassword($userId, $newPassword)
     {
-        $newPassword = $request->get('new_password');
-        $oldPassword = $request->get('old_password');
-        $info = auth('admin')->user();
-        $checkOldPass = Hash::check($oldPassword, $info->password);
-        if (!$checkOldPass) {
-            return $this->statusNG([], __('lang.api.user.profile.password_incorrect'));
-        }
         try {
+            $info = $this->adminRepository->show($userId);
             DB::beginTransaction();
             $info->password = bcrypt($newPassword);
             $info->updated_at = Carbon::now()->format(FORMAT_DATETIME);
             $info->save();
             DB::commit();
-            return $this->statusOK();
+            return $this->statusOK($info, 'Đổi mật khẩu thành công');
         } catch (\Exception $ex) {
             DB::rollBack();
-            return $this->statusNG(['error' => $ex->getMessage()]);
+            return $this->statusNG(['error' => $ex->getMessage()], 'Đổi mật khẩu thất bại');
+        }
+    }
+    public function updateProfile($userId, $params)
+    {
+        try {
+            DB::beginTransaction();
+            $info = $this->adminRepository->update($userId, $params);
+            DB::commit();
+            return $this->statusOK($info, 'Cập nhât thông tin thành công');
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->statusNG(['error' => $ex->getMessage()], 'Cập nhât thông tin thất bại');
         }
     }
 }

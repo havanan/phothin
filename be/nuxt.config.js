@@ -3,6 +3,9 @@ import colors from "vuetify/es5/util/colors";
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  env: {
+    siteName: process.env.SITE_NAME,
+  },
   server: {
     port: process.env.BACKEND_PORT || 3000,
   },
@@ -10,7 +13,7 @@ export default {
   target: "static",
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - Quản Trị Phở Thìn Hà Nội",
+    titleTemplate: "%s - " + process.env.SITE_NAME,
     title: "",
     htmlAttrs: {
       lang: "vi",
@@ -25,11 +28,11 @@ export default {
   },
 
   css: ["@/assets/sass/auth", "@/assets/sass/dashboard"],
-
   plugins: [
     "~/plugins/repositories.js",
     // "~/plugins/axios.js",
     "~/plugins/auth.js",
+    "~/plugins/mixin.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -89,11 +92,11 @@ export default {
         },
         endpoints: {
           login: {
-            url: "admin/auth/login",
+            url: "auth/login",
             method: "post",
           },
-          logout: { url: "admin/auth/logout", method: "post" },
-          user: { url: "admin/auth/user", method: "get", data: "data" },
+          logout: { url: "auth/logout", method: "post" },
+          user: { url: "auth/user", method: "get", data: "data" },
         },
       },
     },

@@ -1,6 +1,7 @@
 .dashboard {
   .left-navigation {
     border-right: 2.5px solid #f5f5f5;
+    // width: 320px !important;
     .nav-logo {
       margin-top: 0.5em;
       img {
@@ -8,6 +9,12 @@
       }
     }
   }
+  // .header-top {
+  //   left: 320px !important;
+  // }
+  // .main-content {
+  //   padding-left: 322px !important;
+  // }
   &-footer {
     width: 100%;
     text-align: center;

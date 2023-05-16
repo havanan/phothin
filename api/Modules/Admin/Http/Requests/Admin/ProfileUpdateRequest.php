@@ -26,6 +26,7 @@ class ProfileUpdateRequest extends ApiRequest
     public function rules()
     {
         return [
+            'id' => ['required', 'numeric', 'exists:admins,id'],
             'name' => ['required', 'min:1', 'max:255'],
         ];
     }
@@ -33,9 +34,12 @@ class ProfileUpdateRequest extends ApiRequest
     public function messages()
     {
         return [
-            'name.required' => __('lang.api.user.profile.name_required'),
-            'name.min' => __('lang.api.user.profile.name_min'),
-            'name.max' => __('lang.api.user.profile.name_max'),
+            'id.required' => __('validation.required'),
+            'id.numeric' => __('validation.numeric'),
+            'id.numeric' => __('validation.exists'),
+            'name.required' => __('validation.required'),
+            'name.min' => __('validation.min.string'),
+            'name.max' => __('validation.max.string'),
         ];
     }
 }

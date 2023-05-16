@@ -36,7 +36,7 @@
                       :type="show1 ? 'text' : 'password'"
                       name="input-10-1"
                       label="Mật khẩu"
-                      hint="At least 8 characters"
+                      hint="Tối thiểu 6 ký tự"
                       counter
                       @click:append="show1 = !show1"
                     ></v-text-field>
@@ -174,7 +174,7 @@ export default {
       show1: false,
       rules: {
         required: (value) => !!value || "Vui lòng không để trống",
-        min: (v) => (v && v.length >= 8) || "Tối thiểu 8 kí tự",
+        min: (v) => (v && v.length >= 6) || "Tối thiểu 6 kí tự",
       },
     };
   },
