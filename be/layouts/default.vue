@@ -8,7 +8,7 @@
       app
       class="left-navigation"
     >
-      <v-list>
+      <v-list class="navigation-list">
         <div class="nav-logo d-flex justify-center">
           <nuxt-link to="/"
             ><img src="~/assets/image/logo.png" class="mb-5 nav-logo"

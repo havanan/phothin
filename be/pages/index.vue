@@ -3,15 +3,19 @@
     <div class="d-flex flex-row justify-center align-center">
       <img src="~/assets/image/logo.png" class="mr-5 nav-logo" width="80px" />
       <h4 class="text-h5">
-        Chào mừng:<strong class="ml-2">{{ $auth.user.name }} !</strong>
+        Chào mừng:<strong class="ml-2 base-color"
+          >{{ $auth.user.name }} !</strong
+        >
       </h4>
     </div>
     <v-row class="mt-5">
       <v-col cols="12" md="5">
         <v-container fluid>
           <v-card>
-            <v-card-title class="d-flex justify-center"
-              ><h5 class="text-h5">Đơn hàng mới</h5></v-card-title
+            <v-card-title
+              ><h5 class="text-base font-weight-medium mb-1">
+                Đơn hàng mới
+              </h5></v-card-title
             >
             <v-card-text>
               <v-simple-table>
@@ -37,8 +41,10 @@
         </v-container>
         <v-container fluid>
           <v-card>
-            <v-card-title class="d-flex justify-center"
-              ><h5 class="text-h5">Đặt lịch mới</h5></v-card-title
+            <v-card-title
+              ><h5 class="text-base font-weight-medium mb-1">
+                Đặt lịch mới
+              </h5></v-card-title
             >
             <v-card-text>
               <v-simple-table>
@@ -66,8 +72,10 @@
       <v-col cols="12" md="7">
         <v-container fluid>
           <v-card>
-            <v-card-title class="d-flex justify-center"
-              ><h5 class="text-h5">Biểu đồ đơn hàng</h5></v-card-title
+            <v-card-title
+              ><h5 class="text-base font-weight-medium mb-1">
+                Biểu đồ đơn hàng
+              </h5></v-card-title
             >
             <v-card-text>
               <v-container fluid class="d-flex justify-end">
@@ -86,8 +94,10 @@
         </v-container>
         <v-container fluid>
           <v-card>
-            <v-card-title class="d-flex justify-center"
-              ><h5 class="text-h5">Biểu đồ doanh thu</h5></v-card-title
+            <v-card-title
+              ><h5 class="text-base font-weight-medium mb-1">
+                Biểu đồ doanh thu
+              </h5></v-card-title
             >
             <v-card-text>
               <v-container fluid class="d-flex justify-end">
