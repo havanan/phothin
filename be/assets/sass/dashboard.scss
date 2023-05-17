@@ -1,13 +1,24 @@
+@import "./mixin.scss";
+
 .dashboard {
   .base-color {
     color: $base-color !important;
+  }
+  .custom-tab {
+    .v-tabs-items {
+      background-color: transparent;
+    }
   }
   .text-base {
     font-size: 1.3rem;
     line-height: 1.5rem;
   }
+  .text-white {
+    color: white !important;
+  }
   .left-navigation {
-    border-right: 2.5px solid #f5f5f5;
+    // border-right: 2.5px solid white;
+    background-color: $base-background-color !important;
     // width: 320px !important;
     .nav-logo {
       margin-top: 0.5em;
@@ -16,29 +27,47 @@
       }
     }
     .navigation-list {
-      .v-list-group {
-        // :hover {
-        //   background-color: $base-color;
-        //   color: white;
-        //   i {
-        //     color: white;
-        //   }
-        // }
-      }
       .v-list-item--active {
         background-color: $base-color;
         color: white;
       }
     }
   }
-  // .header-top {
-  //   left: 320px !important;
-  // }
-  // .main-content {
-  //   padding-left: 322px !important;
-  // }
+
+  .main-content {
+    background-color: $base-background-color;
+    .w-full {
+      width: 100% !important;
+    }
+    .custom-table {
+      th {
+        font-size: 1em !important;
+      }
+      td {
+        font-size: 1em !important;
+      }
+    }
+    .category-group-checkbox {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      .v-input--radio-group__input {
+        justify-content: right;
+      }
+    }
+  }
   &-footer {
     width: 100%;
     text-align: center;
+  }
+}
+@include mobile {
+  .dashboard {
+    .main-content {
+      .category-group-checkbox {
+        .v-input--radio-group__input {
+          justify-content: center;
+        }
+      }
+    }
   }
 }

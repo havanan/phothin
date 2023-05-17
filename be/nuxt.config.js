@@ -123,6 +123,9 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
         },
+        light: {
+          current: "#753020",
+        },
       },
     },
   },

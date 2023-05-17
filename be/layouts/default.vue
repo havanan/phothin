@@ -78,7 +78,10 @@
     </v-navigation-drawer>
     <v-footer :absolute="!fixed" app>
       <div class="dashboard-footer">
-        <span>Coppy right by Anhv &copy; {{ $moment().format("YYYY") }}</span>
+        <span
+          >Made With <strong class="base-color">Anhv</strong> &copy;
+          {{ $moment().format("YYYY") }}</span
+        >
       </div>
     </v-footer>
   </v-app>
@@ -108,10 +111,10 @@ export default {
           title: "Sản phẩm",
 
           childs: [
-            { title: "Danh sách", url: "/product" },
+            { title: "Danh sách", url: "/product/list" },
             { title: "Phân loại", url: "/product/category" },
             { title: "Thêm mới", url: "/product/create" },
-            { title: "Trạng thái", url: "/bill/status" },
+            { title: "Trạng thái", url: "/product/status" },
           ],
         },
 
@@ -119,7 +122,7 @@ export default {
           icon: "mdi-note-multiple-outline",
           title: "Đơn hàng",
           childs: [
-            { title: "Danh sách", url: "/bill" },
+            { title: "Danh sách", url: "/bill/list" },
             { title: "Phân loại", url: "/bill/category" },
             { title: "Trạng thái", url: "/bill/status" },
           ],
@@ -127,16 +130,17 @@ export default {
         {
           icon: "mdi-calendar-plus",
           title: "Đặt lịch",
-          childs: [
-            { title: "Danh sách", url: "/booking" },
-            // { title: "Thêm mới", url: "/bill/create" },
-          ],
+          url: "/booking",
+          // childs: [
+          //   { title: "Danh sách", url: "/booking/list" },
+          //   // { title: "Thêm mới", url: "/bill/create" },
+          // ],
         },
         {
           icon: "mdi-chart-line",
           title: "Thống kê",
           childs: [
-            { title: "Doanh thu", url: "/report" },
+            { title: "Doanh thu", url: "/report/revenue" },
             { title: "Tăng trưởng", url: "/report/growth" },
           ],
         },
@@ -145,16 +149,16 @@ export default {
           title: "Tin tức",
 
           childs: [
-            { title: "Danh sách", url: "/news" },
+            { title: "Danh sách", url: "/news/list" },
             { title: "Thêm mới", url: "/news/create" },
             { title: "Phân loại", url: "/news/category" },
           ],
         },
         {
-          icon: "mdi-developer-board",
+          icon: "mdi-barcode-scan",
           title: "Voucher",
           childs: [
-            { title: "Danh sách", url: "/voucher" },
+            { title: "Danh sách", url: "/voucher/list" },
             { title: "Thêm mới", url: "/voucher/create" },
           ],
         },
@@ -170,27 +174,28 @@ export default {
         {
           icon: "mdi-account",
           title: "Khách hàng",
-
           childs: [
-            { title: "Danh sách", url: "/user" },
+            { title: "Danh sách", url: "/user/list" },
             { title: "Thêm mới", url: "/user/create" },
+            { title: "Phân loại", url: "/user/category" },
           ],
         },
         {
           icon: "mdi-nature-people",
           title: "Đại lý",
-
           childs: [
-            { title: "Danh sách", url: "/user" },
-            { title: "Thêm mới", url: "/user/create" },
+            { title: "Danh sách", url: "/agency/list" },
+            { title: "Thêm mới", url: "/agency/create" },
+            { title: "Phân loại", url: "/agency/category" },
           ],
         },
         {
           icon: "mdi-account-network",
           title: "Tk hệ thống",
           childs: [
-            { title: "Danh sách", url: "/admin" },
+            { title: "Danh sách", url: "/admin/list" },
             { title: "Thêm mới", url: "/admin/create" },
+            { title: "Phân loại", url: "/agadminency/category" },
           ],
         },
         {
@@ -198,7 +203,7 @@ export default {
           title: "Cài đặt",
           url: "/inspire",
           childs: [
-            { title: "Hệ thống", url: "/setting" },
+            { title: "Hệ thống", url: "/setting/list" },
             { title: "Cấu hình SMS", url: "/setting/sms" },
             { title: "Gửi Mail", url: "/setting/mail" },
           ],
