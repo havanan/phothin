@@ -23,9 +23,7 @@
             outlined
             dense
           ></v-text-field>
-          <v-btn color="current" class="text-white" @click="create()">
-            Thêm <v-icon>mdi-plus</v-icon></v-btn
-          >
+          <create-buttons @create-method="create"></create-buttons>
         </div>
       </v-card-text>
     </v-card>
@@ -42,15 +40,12 @@
           <strong class="base-color"> #{{ item.id }}</strong>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn @click="show(item)" icon class="mr-2"
-            ><v-icon>mdi-eye-outline</v-icon></v-btn
-          >
-          <v-btn color="primary" @click="edit(item)" icon class="mr-2"
-            ><v-icon>mdi-pencil-outline</v-icon></v-btn
-          >
-          <v-btn color="error" @click="remove(item)" icon
-            ><v-icon>mdi-delete-outline</v-icon></v-btn
-          >
+          <table-default-buttons
+            :item="{ item }"
+            @show-method="show"
+            @edit-method="edit"
+            @remove-method="remove"
+          ></table-default-buttons>
         </template>
       </v-data-table>
     </v-card>
@@ -83,7 +78,12 @@
   </v-container>
 </template>
 <script>
+import TableDefaultButtons from "~/components/TableDefaulButtons.vue";
+import CreateButtons from "~/components/CreateButtons.vue";
+import { mapState, mapActions } from "vuex";
+
 export default {
+  components: { TableDefaultButtons, CreateButtons },
   name: "AdminList",
   head() {
     return {
@@ -94,6 +94,7 @@ export default {
     return {
       rightDrawer: false,
       right: true,
+      btnOptions: {},
       items: ["Foo", "Bar", "Fizz", "Buzz"],
       selected: [],
       headers: [
@@ -142,20 +143,26 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("modules/dialog", ["showDialog"]),
+  },
+  watch: {
+    rightDrawer(newVal) {
+      this.toggleShowDialog(newVal);
+    },
+  },
   methods: {
-    create() {
+    ...mapActions("modules/dialog", ["toggleShowDialog"]),
+    create(params) {
       this.rightDrawer = true;
     },
     show(item) {
-      console.log(item);
       this.rightDrawer = true;
     },
     edit(item) {
-      console.log(item);
       this.rightDrawer = true;
     },
     remove(item) {
-      console.log(item);
       this.rightDrawer = true;
     },
   },

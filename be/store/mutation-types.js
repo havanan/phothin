@@ -8,6 +8,8 @@ export const SHOW_SUCCESS = "SHOW_SUCCESS";
 export const SUCCESS = "SUCCESS";
 // loading
 export const SHOW_LOADING = "SHOW_LOADING";
+// dialog
+export const SHOW_DIALOG = "SHOW_DIALOG";
 // notification service
 export const NOTIFICATION_MESSAGES = "NOTIFICATION_MESSAGES";
 // auth

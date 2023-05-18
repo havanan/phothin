@@ -64,6 +64,7 @@
     <v-main class="main-content">
       <v-container fluid>
         <Nuxt />
+        <dialog-component>hihih đồ ngok</dialog-component>
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -88,12 +89,13 @@
 </template>
 
 <script>
+import DialogComponent from "../components/DialogComponent.vue";
 import Group from "./common/navigation/Group.vue";
 import Single from "./common/navigation/Single.vue";
 export default {
   name: "DefaultLayout",
-  middleware: "auth",
-  components: { Group, Single },
+  middleware: ["auth", "checkRole"],
+  components: { Group, Single, DialogComponent },
   data() {
     return {
       clipped: false,
@@ -195,7 +197,7 @@ export default {
           childs: [
             { title: "Danh sách", url: "/admin/list" },
             { title: "Thêm mới", url: "/admin/create" },
-            { title: "Phân loại", url: "/agadminency/category" },
+            { title: "Phân loại", url: "/admin/category" },
           ],
         },
         {
@@ -204,8 +206,19 @@ export default {
           url: "/inspire",
           childs: [
             { title: "Hệ thống", url: "/setting/list" },
+            { title: "Nhóm quyền", url: "/setting/role" },
+            { title: "Quyền", url: "/setting/permissions " },
             { title: "Cấu hình SMS", url: "/setting/sms" },
             { title: "Gửi Mail", url: "/setting/mail" },
+          ],
+        },
+        {
+          icon: "mdi-shield-half-full",
+          title: "Phân quyền",
+          url: "/role",
+          childs: [
+            { title: "Nhóm quyền", url: "/role/list" },
+            { title: "Quyền", url: "/role/permissions " },
           ],
         },
       ],

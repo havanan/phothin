@@ -25,9 +25,7 @@ export default {
   methods: {
     ...mapActions("modules/auth", ["fetchAuthInfo"]),
     async getAuthInfo() {
-      console.log(this.authInfo.name);
       await this.fetchAuthInfo({ name: "kẹc" });
-      console.log(this.authInfo.name);
     },
   },
 };

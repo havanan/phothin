@@ -9,7 +9,5 @@ export default {
     // } else {
     // }
   },
-  postUpdatePassw({ commit }, payload) {
-    console.log(payload);
-  },
+  postUpdatePassw({ commit }, payload) {},
 };
