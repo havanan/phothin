@@ -1,17 +1,15 @@
 import colors from "vuetify/es5/util/colors";
 
 export default {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
   env: {
     siteName: process.env.SITE_NAME,
+    baseUrl: process.env.BASE_URL || "http://localhost:8000/api/admin",
   },
   server: {
     port: process.env.BACKEND_PORT || 3000,
   },
-  // Target: https://go.nuxtjs.dev/config-target
   target: "static",
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: "%s - " + process.env.SITE_NAME,
     title: "",
@@ -30,20 +28,13 @@ export default {
   css: ["@/assets/sass/auth", "@/assets/sass/dashboard"],
   plugins: [
     "~/plugins/repositories.js",
-    // "~/plugins/axios.js",
+    "~/plugins/axios",
     "~/plugins/auth.js",
     "~/plugins/mixin.js",
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/vuetify
-    "@nuxtjs/vuetify",
-    "@nuxtjs/moment",
-  ],
-  // Modules: https://go.nuxtjs.dev/config-modules
+  buildModules: ["@nuxtjs/vuetify", "@nuxtjs/moment"],
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/i18n",
@@ -104,8 +95,8 @@ export default {
     redirect: {
       login: "/login",
       logout: "/",
-      callback: "/login",
-      home: "/",
+      callback: false,
+      home: false,
     },
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

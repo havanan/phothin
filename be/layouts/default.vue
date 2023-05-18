@@ -53,7 +53,7 @@
               ><v-icon>mdi-exit-to-app</v-icon></v-list-item-icon
             >
             <v-list-item-content>
-              <v-list-item-title @click="handleLogout()"
+              <v-list-item-title class="pointer" @click="handleLogout()"
                 >Đăng xuất</v-list-item-title
               >
             </v-list-item-content>
@@ -231,9 +231,10 @@ export default {
   methods: {
     async handleLogout() {
       try {
-        await this.$auth.logout();
-        this.$toast.success("Bạn đăng xuất khỏi hệ thống").goAway(1000);
-        this.$router.push("login");
+        await this.$auth.logout().then(() => {
+          this.$toast.success("Bạn đăng xuất khỏi hệ thống").goAway(1000);
+          this.$router.push("/login");
+        });
       } catch (error) {
         this.$toast.error("Lỗi đăng xuất").goAway(1300);
       }

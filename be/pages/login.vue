@@ -143,7 +143,7 @@ import { mapActions } from "vuex";
 export default {
   name: "Login",
   layout: "auth",
-  // middleware: "guest",
+  middleware: "checkLogin",
   head() {
     return {
       title: "Đăng Nhập",
@@ -194,13 +194,17 @@ export default {
     },
     async login() {
       try {
-        const response = await this.$auth.loginWith("local", {
-          data: {
-            email: this.email,
-            password: this.password,
-          },
-        });
-        this.$toast.success("Đăng nhập thành công").goAway(1000);
+        await this.$auth
+          .loginWith("local", {
+            data: {
+              email: this.email,
+              password: this.password,
+            },
+          })
+          .then(() => {
+            this.$toast.success("Đăng nhập thành công").goAway(1000);
+            this.$router.push("/");
+          });
       } catch (error) {
         this.$toast.error("Lỗi đăng nhập").goAway(1300);
       }
