@@ -34,9 +34,9 @@ class LoginController extends BaseController
                 Log::info('admin login with email: ' . $credentials['email']);
                 return $this->adminService->responseWithToken($token);
             }
-            return $this->statusNG(['error_code' => ERROR_CODE['PASSWORD_INCORRECT']], __('lang.api.password_incorrect'));
+            return $this->statusNG(['error_code' => ERROR_CODE['PASSWORD_INCORRECT']], "Sai mật khẩu");
         } catch (\Exception $ex) {
-            return $this->statusNG(['error_code' => ERROR_CODE['UNAUTHORIZED']], __('lang.api.unauthorized'));
+            return $this->statusNG(['error_code' => ERROR_CODE['UNAUTHORIZED']], "Sai tên đăng nhập hoặc mật khẩu");
         }
     }
     /**

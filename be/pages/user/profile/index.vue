@@ -9,6 +9,7 @@
       color="current"
       background-color="var(--base-color)"
       class="custom-tab"
+      v-model="currrentTab"
     >
       <v-tab><v-icon>mdi-account-outline</v-icon>Thông tin cá nhân</v-tab>
       <v-tab><v-icon>mdi-lock-open-outline</v-icon> Cập nhật mật khẩu</v-tab>
@@ -151,6 +152,7 @@ export default {
     show1: false,
     show2: false,
     show3: false,
+    currrentTab: 1,
     nameRules: [
       (v) => !!v || "Tên không được để trống",
       (v) => v.length >= 6 || "Tên tối thiểu 6 kí tự",
@@ -180,19 +182,30 @@ export default {
     this.userInfo = Object.assign({}, this.$auth.user);
     this.pass.user_id = this.$auth.user.id;
   },
-  watch: {},
+  watch: {
+    currrentTab(newVal) {
+      if (newVal === 1) {
+        this.resetFormChagePass();
+      }
+    },
+  },
   methods: {
     ...mapActions("modules/admin", ["postUpdatePassw", "postUpdateInfo"]),
     async updatePassword() {
       try {
         this.loading = true;
         await this.postUpdatePassw(this.pass);
-        this.pass.old = null;
-        this.pass.new = null;
-        this.pass.re = null;
-        this.$refs.formChagePassw.reset();
+        this.resetFormChagePass();
       } catch (error) {}
       this.loading = false;
+    },
+    resetFormChagePass() {
+      this.pass.old = null;
+      this.pass.new = null;
+      this.pass.re = null;
+      if (this.$refs.formChagePassw) {
+        this.$refs.formChagePassw.reset();
+      }
     },
     async updateInfo() {
       try {

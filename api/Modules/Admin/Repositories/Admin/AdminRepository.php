@@ -15,4 +15,14 @@ class AdminRepository extends EloquentRepository
     {
         return Admin::class;
     }
+
+    /**
+     * getList
+     * @param AdminFilter $filter
+     * @return JsonResponse
+     */
+    public function getList($filter)
+    {
+        return $this->model->filter($filter)->paginate($filter->getPerPage());
+    }
 }

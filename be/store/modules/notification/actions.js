@@ -3,27 +3,16 @@ export default {
   setNotificationWeb({ commit }, payload) {
     commit(types.NOTIFICATION_MESSAGES, payload);
   },
-  showNotificationWeb({}, payload) {
+  showSuccessNotification({}, payload) {
     const timeOut = 1500;
-    const notifications = payload.data;
-
-    if (
-      payload.type === "success" &&
-      notifications &&
-      notifications.data &&
-      notifications.data.message
-    ) {
-      this.$toast.success(notifications.data.message).goAway(timeOut);
+    if (payload.data && payload.data.message) {
+      this.$toast.success(payload.data.message).goAway(timeOut);
     }
-    if (
-      payload.type === "error" &&
-      notifications &&
-      notifications.response &&
-      notifications.response.data &&
-      notifications.response.data.data &&
-      notifications.response.data.data.errors
-    ) {
-      const res = notifications.response.data.data.errors;
+  },
+  showErrorNotification({}, payload) {
+    const timeOut = 1500;
+    if (payload && payload.errors) {
+      const res = payload.errors;
       let i = 1;
       for (const key in res) {
         if (res[key] && res[key][0]) {

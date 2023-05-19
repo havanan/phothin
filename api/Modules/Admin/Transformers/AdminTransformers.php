@@ -18,10 +18,15 @@ class AdminTransformers extends TransformerAbstract
     {
         return [
             'id' => $entity->id,
+            'avatar' => $entity->avatar,
             'name' => $entity->name,
             'email' => $entity->email,
             'phone' => $entity->phone,
             'status' => $entity->status,
+            'role' =>  $entity->role_id,
+            'address' =>  $entity->address,
+            'note' =>  $entity->note,
+            'locations' =>  $entity->locations,
             'created_at' => Carbon::parse($entity->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::parse($entity->updated_at)->format('Y-m-d H:i:s')
         ];

@@ -5,7 +5,7 @@ namespace Modules\Admin\Http\Requests\Admin;
 use App\Base\Request\ApiRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends ApiRequest
+class CreateRequest extends ApiRequest
 {
 
     /**
@@ -27,21 +27,23 @@ class ProfileUpdateRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'numeric', 'exists:admins,id'],
+
             'name' => ['required', 'min:1', 'max:255'],
-            'phone' => [Rule::unique('admins')->ignore(request()->get('id'), 'id')],
+            'email' => ['required', 'min:1', 'max:255', 'exists:admins,email'],
+            'phone' => ['exists:admins,phone', 'max:20'],
         ];
     }
 
     public function messages()
     {
         return [
-            'id.required' => __('validation.required'),
-            'id.numeric' => __('validation.numeric'),
-            'id.numeric' => __('validation.exists'),
             'name.required' => __('validation.required'),
             'name.min' => __('validation.min.string'),
             'name.max' => __('validation.max.string'),
+            'email.required' => __('validation.required'),
+            'email.min' => __('validation.min.string'),
+            'email.max' => __('validation.max.string'),
+            'name.exists' => __('validation.exists'),
         ];
     }
 }

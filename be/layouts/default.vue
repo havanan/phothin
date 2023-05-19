@@ -64,7 +64,6 @@
     <v-main class="main-content">
       <v-container fluid>
         <Nuxt />
-        <dialog-component>hihih đồ ngok</dialog-component>
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -89,13 +88,12 @@
 </template>
 
 <script>
-import DialogComponent from "../components/DialogComponent.vue";
 import Group from "./common/navigation/Group.vue";
 import Single from "./common/navigation/Single.vue";
 export default {
   name: "DefaultLayout",
   middleware: ["auth", "checkRole"],
-  components: { Group, Single, DialogComponent },
+  components: { Group, Single },
   data() {
     return {
       clipped: false,

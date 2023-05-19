@@ -4,7 +4,8 @@ export default {
   ssr: false,
   env: {
     siteName: process.env.SITE_NAME,
-    baseUrl: process.env.BASE_URL || "http://localhost:8000/api/admin",
+    baseDevUrl: process.env.BASE_DEV_URL,
+    baseProductUrl: process.env.BASE_PRODUCT_URL,
   },
   server: {
     port: process.env.BACKEND_PORT || 3000,
@@ -24,13 +25,16 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/logo.ico" }],
   },
-
+  loading: {
+    color: "#1867c0",
+    height: "5px",
+  },
   css: ["@/assets/sass/auth", "@/assets/sass/dashboard"],
   plugins: [
-    "~/plugins/repositories.js",
+    "~/plugins/repositories",
     "~/plugins/axios",
-    "~/plugins/auth.js",
-    "~/plugins/mixin.js",
+    "~/plugins/auth",
+    "~/plugins/mixin",
   ],
 
   components: true,
@@ -44,16 +48,16 @@ export default {
   moment: {
     defaultLocale: "vi",
   },
-  axios: {
-    baseURL: process.env.BASE_URL,
-    retry: { retries: 3 },
-    headers: {
-      common: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    },
-  },
+  // axios: {
+  //   baseURL: process.env.BASE_URL,
+  //   retry: { retries: 3 },
+  //   headers: {
+  //     common: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   },
+  // },
   i18n: {
     /* module options */
   },

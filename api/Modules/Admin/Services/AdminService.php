@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\Admin\Repositories\Admin\AdminRepository;
+use Modules\Admin\Transformers\AdminTransformers;
 use Modules\Admin\Transformers\AuthAdminTransformers;
 
 class AdminService extends BaseService
@@ -83,6 +84,13 @@ class AdminService extends BaseService
             return $this->statusNG(['error' => $ex->getMessage()], 'Đổi mật khẩu thất bại');
         }
     }
+
+    /**
+     * @param int $userId
+     * @param array $params
+     * @return JsonResponse
+     */
+
     public function updateProfile($userId, $params)
     {
         try {
@@ -93,6 +101,63 @@ class AdminService extends BaseService
         } catch (\Exception $ex) {
             DB::rollBack();
             return $this->statusNG(['error' => $ex->getMessage()], 'Cập nhât thông tin thất bại');
+        }
+    }
+
+    /**
+     * @param $filter
+     * @return JsonResponse
+     */
+    public function getList($filter)
+    {
+        $list = $this->adminRepository->getList($filter);
+        return fractal($list)->transformWith(new AdminTransformers())->respond();
+    }
+
+    /**
+     * @param $data
+     * @return bool|mixed
+     */
+
+    public function create($params)
+    {
+        try {
+            $params['author_id'] = auth()->guard('admin')->id();
+            $this->adminRepository->create($params);
+            return $this->statusOK('Tạo thành công');
+        } catch (\Exception $e) {
+            return $this->statusNG(null, $e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param array $params
+     * @return JsonResponse
+     */
+    public function update($id, $params)
+    {
+        try {
+            $this->adminRepository->update($id, $params);
+            return $this->statusOK('Cập nhật thành công');
+        } catch (\Exception $e) {
+            return $this->statusNG(null, $e->getMessage());
+        }
+    }
+
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function deleteById($id)
+    {
+
+        try {
+            $this->adminRepository->delete($id);
+            return $this->statusOK('Xoá thành công');
+        } catch (\Exception $e) {
+            return $this->statusNG(null, $e->getMessage());
         }
     }
 }

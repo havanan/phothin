@@ -81,5 +81,4 @@ class BaseService extends ServiceProvider
     {
         return fractal($data)->transformWith($transformer)->respond();
     }
-
 }

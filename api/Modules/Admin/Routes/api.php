@@ -34,8 +34,12 @@ Route::group([
         Route::group([
             'prefix' => 'admin-user'
         ], function () {
+            Route::get('list',          [AdminController::class, 'getList']);
             Route::post('change-passw', [AdminController::class, 'changePassw']);
             Route::post('change-info',  [AdminController::class, 'changeInfo']);
+            Route::post('create',       [AdminController::class, 'postCreate']);
+            Route::post('update/{$id}', [AdminController::class, 'postUpdate']);
+            Route::delete('{$id}',      [AdminController::class, 'destroy']);
         });
     });
 });

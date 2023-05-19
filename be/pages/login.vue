@@ -166,11 +166,6 @@ export default {
         (v) => !!v || "Required",
         (v) => /.+@.+\..+/.test(v) || "E-mail không đúng định dạng",
       ],
-      emailRules: [
-        (v) => !!v || "Required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail không đúng định dạng",
-      ],
-
       show1: false,
       rules: {
         required: (value) => !!value || "Vui lòng không để trống",
@@ -206,7 +201,9 @@ export default {
             this.$router.push("/");
           });
       } catch (error) {
-        this.$toast.error("Lỗi đăng nhập").goAway(1300);
+        this.$toast
+          .error(error.message ? error.message : "Server đang bảo trì")
+          .goAway(1300);
       }
     },
   },

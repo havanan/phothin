@@ -22,3 +22,7 @@ export const LOGOUT = "LOGOUT";
 export const EMAIL_VERIFIED = "EMAIL_VERIFIED";
 export const RESET_EMAIL_SENT = "RESET_EMAIL_SENT";
 export const SHOW_CHANGE_PASSWORD_INPUTS = "SHOW_CHANGE_PASSWORD_INPUTS";
+//admin
+export const ADMIN_LIST = "ADMIN_LIST";
+export const ADMIN_TOTAL = "ADMIN_TOTAL";
+export const ALL_ADMIN = "ALL_ADMIN";

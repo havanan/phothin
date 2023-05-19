@@ -6,15 +6,18 @@ export default ($axios) => ({
   postChangeInfo(payload) {
     return $axios.post(`${resource}/change-info`, payload);
   },
-  // create(payload) {
-  //   return $axios.post(`${resource}`, payload);
-  // },
+  getListPaging(payload) {
+    return $axios.get(`${resource}/list`, { params: payload });
+  },
+  create(payload) {
+    return $axios.post(`${resource}/create`, payload);
+  },
 
-  // update(id, payload) {
-  //   return $axios.post(`${resource}/${id}`, payload);
-  // },
+  update(id, payload) {
+    return $axios.post(`${resource}/update/${id}`, payload);
+  },
 
-  // delete(id) {
-  //   return $axios.delete(`${resource}/${id}`);
-  // },
+  delete(id) {
+    return $axios.delete(`${resource}/${id}`);
+  },
 });

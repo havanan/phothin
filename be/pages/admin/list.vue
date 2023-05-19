@@ -9,11 +9,25 @@
         <div class="d-flex flex-row align-center">
           <v-select
             :items="items"
-            label="Outlined style"
+            item-value="code"
+            item-text="name"
+            label="Chọn quyền"
             dense
             outlined
             hide-details
             class="mr-4"
+            v-model="searchParams.role"
+          ></v-select>
+          <v-select
+            :items="statusLst"
+            item-value="code"
+            item-text="name"
+            label="Trạng thái"
+            dense
+            outlined
+            hide-details
+            class="mr-4"
+            v-model="searchParams.status"
           ></v-select>
           <v-text-field
             placeholder="Tìm kiếm"
@@ -22,68 +36,90 @@
             clearable
             outlined
             dense
+            v-model="searchParams.free_word"
           ></v-text-field>
           <create-buttons @create-method="create"></create-buttons>
         </div>
       </v-card-text>
     </v-card>
-    <v-card class="mt-5">
+    <v-card class="mt-5 pt-5 pb-5">
       <v-data-table
         v-model="selected"
         :headers="headers"
         :items="desserts"
         item-key="name"
-        show-select
+        :show-select="false"
+        :loading="tableLoading"
+        hide-default-footer
+        loading-text="Đang cập nhật dữ liệu..."
+        no-data-text="Không có dữ liệu"
+        no-results-text="Không có kết quả phù hợp"
+        :page.sync="page"
+        :items-per-page="itemsPerPage"
+        :options.sync="pagination"
+        :server-items-length="totalItems"
+        @page-count="pageCount = $event"
         class="custom-table"
       >
+        <!-- <template v-slot:header.action="{ header }">
+          <div class="d-flex justify-end">
+            <v-btn icon color="error"
+              ><v-icon>mdi-delete-outline</v-icon></v-btn
+            >
+          </div>
+        </template> -->
+        <template v-slot:item.created_at="{ item }">
+          {{ formatDateTime(item.created_at) }}
+        </template>
         <template v-slot:item.id="{ item }">
           <strong class="base-color"> #{{ item.id }}</strong>
         </template>
+        <template v-slot:item.role="{ item }">
+          <template v-for="(role, index) in items">
+            <span v-if="item.role === role.code" :key="index"
+              ><v-icon class="mr-2" :color="role.color">{{ role.icon }}</v-icon>
+              {{ role.name }}</span
+            >
+          </template>
+        </template>
+        <template v-slot:item.status="{ item }">
+          <v-switch
+            v-model="item.status"
+            :color="item.status === 1 ? 'success' : ''"
+            readonly
+            hide-details
+          ></v-switch>
+        </template>
         <template v-slot:item.action="{ item }">
           <table-default-buttons
-            :item="{ item }"
+            :item="item"
             @show-method="show"
             @edit-method="edit"
             @remove-method="remove"
           ></table-default-buttons>
         </template>
       </v-data-table>
+      <div v-if="pageCount > 1" class="pt-5 pb-5">
+        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      </div>
     </v-card>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-container class="mt-10">
-        <v-form class="d-flex flex-column align-center">
-          <v-text-field
-            class="w-full"
-            outlined
-            label="Tên hiển thị"
-          ></v-text-field>
-          <v-text-field
-            class="w-full"
-            outlined
-            label="Số điện thoại"
-          ></v-text-field>
-          <v-text-field
-            class="w-full"
-            outlined
-            label="Trạng thái"
-          ></v-text-field>
-          <v-text-field class="w-full" outlined label="Ngày tạo"></v-text-field>
-          <div class="d-flex flex-column align-center w-full">
-            <v-btn class="success mb-3 w-full">Lưu</v-btn>
-            <v-btn class="w-full" outlined type="reset">Nhập lại</v-btn>
-          </div>
-        </v-form>
-      </v-container>
-    </v-navigation-drawer>
+    <admin-info-dialog
+      v-model="dialog"
+      :role-list="items"
+      :status-list="statusLst"
+      :edited-item="editedItem"
+      :action="action"
+    ></admin-info-dialog>
   </v-container>
 </template>
 <script>
 import TableDefaultButtons from "~/components/TableDefaulButtons.vue";
 import CreateButtons from "~/components/CreateButtons.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+import AdminInfoDialog from "../../components/admin/AdminInfoDialog.vue";
 
 export default {
-  components: { TableDefaultButtons, CreateButtons },
+  components: { TableDefaultButtons, CreateButtons, AdminInfoDialog },
   name: "AdminList",
   head() {
     return {
@@ -92,78 +128,103 @@ export default {
   },
   data() {
     return {
-      rightDrawer: false,
-      right: true,
+      dialog: false,
+      tableLoading: false,
+      page: 1,
+      pageCount: 0,
+      action: "create",
       btnOptions: {},
-      items: ["Foo", "Bar", "Fizz", "Buzz"],
+      pagination: {},
       selected: [],
+      editedItem: {},
+      searchParams: {
+        free_word: null,
+        role: null,
+        status: null,
+      },
+      items: [
+        {
+          name: "Nhân viên",
+          code: 0,
+          color: "success",
+          icon: "mdi-account-outline",
+        },
+        { name: "Admin", code: 1, color: "error", icon: "mdi-account-star" },
+        { name: "Kế toán", code: 2, color: "primary", icon: "mdi-glasses" },
+      ],
+      statusLst: [
+        { name: "Kích hoạt", code: 1 },
+        { name: "Vô hiệu hoá", code: 0 },
+      ],
+
       headers: [
         { text: "#ID", value: "id" },
         {
-          text: "Dessert (100g serving)",
-          align: "start",
-          sortable: false,
+          text: "Tên hiển thị",
           value: "name",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "", value: "action" },
-      ],
-      desserts: [
-        {
-          id: 13,
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: 1,
-        },
-        {
-          id: 32,
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: 1,
-        },
-        {
-          id: 3,
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: 7,
-        },
+        { text: "Diện thoại", value: "phone" },
+        { text: "Email", value: "email" },
+        { text: "Quyền", value: "role" },
+        { text: "Trạng thái", value: "status" },
+        { text: "Ngày tạo", value: "created_at" },
+        { text: "", value: "action", sortable: false },
       ],
     };
   },
   computed: {
-    ...mapState("modules/dialog", ["showDialog"]),
+    ...mapGetters("modules/admin", ["adminList", "adminTotal"]),
+    ...mapState("modules/config", ["defaultItemsPerPage", "defaultDateFormat"]),
+    itemsPerPage() {
+      return this.defaultItemsPerPage;
+    },
+    dateFormat() {
+      return this.defaultDateFormat;
+    },
+    totalItems() {
+      return this.adminTotal;
+    },
+    desserts() {
+      return this.adminList;
+    },
   },
   watch: {
-    rightDrawer(newVal) {
-      this.toggleShowDialog(newVal);
+    pagination(newVal) {
+      this.searchForm();
     },
   },
   methods: {
-    ...mapActions("modules/dialog", ["toggleShowDialog"]),
+    ...mapActions("modules/admin", ["getListPaging"]),
     create(params) {
-      this.rightDrawer = true;
+      this.action = "create";
+      this.dialog = true;
     },
     show(item) {
-      this.rightDrawer = true;
+      this.action = "show";
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
     edit(item) {
-      this.rightDrawer = true;
+      this.action = "edit";
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
     remove(item) {
-      this.rightDrawer = true;
+      this.dialog = true;
+    },
+    async searchForm() {
+      try {
+        this.loading = true;
+        const params = this.buildPayloadPagination(
+          this.pagination,
+          this.searchParams
+        );
+        await this.getListPaging(params);
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+      }
     },
   },
 };

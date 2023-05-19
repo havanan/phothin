@@ -38,4 +38,17 @@ class Admin extends Authenticatable implements JWTSubject
             'module' => 'admin',
         ];
     }
+    public function getTableName()
+    {
+        return $this->getTable() . '.';
+    }
+    /**
+     * getTableColumns
+     *
+     * @return void
+     */
+    public function getTableColumns()
+    {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
 }

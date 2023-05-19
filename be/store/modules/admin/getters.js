@@ -1,3 +1,4 @@
 export default {
-  authInfo: (state) => state.authInfo,
+  adminList: (state) => state.adminList,
+  adminTotal: (state) => state.adminTotal,
 };

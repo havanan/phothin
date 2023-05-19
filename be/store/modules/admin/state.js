@@ -1,5 +1,4 @@
-export default {
-  authInfo: {
-    name: "lol má",
-  },
-};
+export default () => ({
+  adminList: [],
+  adminTotal: 0,
+});
