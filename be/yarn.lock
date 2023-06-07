@@ -8081,6 +8081,11 @@ vue@^2.7.10:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
 
+vuetify-confirm@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/vuetify-confirm/-/vuetify-confirm-2.0.6.tgz#2fc790984096f2ae560f5926f32f3cba9f7a5006"
+  integrity sha512-WXgcj95kFbTAU0/On28iedSb71VjK0SfB6Q+MZIV/py3tAB3Yuq5PfPtT4lYYNvYHP4v3hmx4YyvdWE00Ea6DQ==
+
 vuetify-loader@^1.7.3:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.9.2.tgz#adcadac71c6d9b24bde42a5b81dfda1871f73f81"

@@ -14,9 +14,10 @@
             label="Chọn quyền"
             dense
             outlined
+            clearable
             hide-details
             class="mr-4"
-            v-model="searchParams.role"
+            v-model="searchParams.role_id"
           ></v-select>
           <v-select
             :items="statusLst"
@@ -26,6 +27,7 @@
             dense
             outlined
             hide-details
+            clearable
             class="mr-4"
             v-model="searchParams.status"
           ></v-select>
@@ -47,7 +49,7 @@
         v-model="selected"
         :headers="headers"
         :items="desserts"
-        item-key="name"
+        item-key="id"
         :show-select="false"
         :loading="tableLoading"
         hide-default-footer
@@ -74,9 +76,9 @@
         <template v-slot:item.id="{ item }">
           <strong class="base-color"> #{{ item.id }}</strong>
         </template>
-        <template v-slot:item.role="{ item }">
+        <template v-slot:item.role_id="{ item }">
           <template v-for="(role, index) in items">
-            <span v-if="item.role === role.code" :key="index"
+            <span v-if="item.role_id === role.code" :key="index"
               ><v-icon class="mr-2" :color="role.color">{{ role.icon }}</v-icon>
               {{ role.name }}</span
             >
@@ -117,7 +119,6 @@ import TableDefaultButtons from "~/components/TableDefaulButtons.vue";
 import CreateButtons from "~/components/CreateButtons.vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import AdminInfoDialog from "../../components/admin/AdminInfoDialog.vue";
-
 export default {
   components: { TableDefaultButtons, CreateButtons, AdminInfoDialog },
   name: "AdminList",
@@ -139,7 +140,7 @@ export default {
       editedItem: {},
       searchParams: {
         free_word: null,
-        role: null,
+        role_id: null,
         status: null,
       },
       items: [
@@ -165,7 +166,7 @@ export default {
         },
         { text: "Diện thoại", value: "phone" },
         { text: "Email", value: "email" },
-        { text: "Quyền", value: "role" },
+        { text: "Quyền", value: "role_id" },
         { text: "Trạng thái", value: "status" },
         { text: "Ngày tạo", value: "created_at" },
         { text: "", value: "action", sortable: false },
@@ -189,13 +190,24 @@ export default {
     },
   },
   watch: {
-    pagination(newVal) {
+    pagination() {
       this.searchForm();
+    },
+    searchParams: {
+      handler(newVal) {
+        this.searchForm();
+      },
+      deep: true,
+    },
+    dialog(newVal) {
+      if (!newVal) {
+        this.searchForm();
+      }
     },
   },
   methods: {
-    ...mapActions("modules/admin", ["getListPaging"]),
-    create(params) {
+    ...mapActions("modules/admin", ["getListPaging", "deleteItem"]),
+    create() {
       this.action = "create";
       this.dialog = true;
     },
@@ -209,8 +221,25 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    remove(item) {
-      this.dialog = true;
+
+    async remove(item) {
+      try {
+        const response = await this.$confirm(
+          this.$t("Bạn chắc chắn muốn xoá ?"),
+          {
+            title: "Cảnh báo",
+            buttonTrueText: "Xoá",
+            buttonFalseText: "Huỷ",
+            buttonTrueColor: "red lighten3",
+            buttonFalseColor: "blue",
+          }
+        );
+        if (response) {
+          await this.deleteItem(item.id);
+          await this.searchForm();
+          this.editedItem = Object.assign({}, {});
+        }
+      } catch (error) {}
     },
     async searchForm() {
       try {
@@ -222,7 +251,6 @@ export default {
         await this.getListPaging(params);
         this.loading = false;
       } catch (error) {
-        console.log(error);
         this.loading = false;
       }
     },

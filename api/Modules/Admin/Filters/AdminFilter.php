@@ -13,9 +13,19 @@ class AdminFilter extends AbstractFilter
         'name' => NameFilter::class,
         'created_at',
         'free_word',
-        'id'
+        'id',
+        'role_id'
     ];
-
+    /**
+     * role_id
+     *
+     * @param String $value
+     * @return Builder
+     */
+    public function role_id($value)
+    {
+        return $this->builder->where('role_id', $value);
+    }
     /**
      * created_at
      *

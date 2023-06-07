@@ -8,6 +8,9 @@ use Modules\Admin\Http\Controllers\UserController;
 Route::group([
     'prefix' => 'admin'
 ], function () {
+    Route::get('/', function () {
+        echo "Hello Admin Api";
+    });
     // Chưa đăng nhập
     Route::group([
         'prefix' => 'auth'
@@ -34,12 +37,12 @@ Route::group([
         Route::group([
             'prefix' => 'admin-user'
         ], function () {
-            Route::get('list',          [AdminController::class, 'getList']);
-            Route::post('change-passw', [AdminController::class, 'changePassw']);
-            Route::post('change-info',  [AdminController::class, 'changeInfo']);
-            Route::post('create',       [AdminController::class, 'postCreate']);
-            Route::post('update/{$id}', [AdminController::class, 'postUpdate']);
-            Route::delete('{$id}',      [AdminController::class, 'destroy']);
+            Route::get('list',            [AdminController::class, 'getList']);
+            Route::get('delete/{id}',     [AdminController::class, 'destroy']);
+            Route::post('change-passw',   [AdminController::class, 'changePassw']);
+            Route::post('change-info',    [AdminController::class, 'changeInfo']);
+            Route::post('create',         [AdminController::class, 'postCreate']);
+            Route::post('update/{id}',   [AdminController::class, 'postUpdate']);
         });
     });
 });

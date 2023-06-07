@@ -12,12 +12,10 @@ export default ($axios) => ({
   create(payload) {
     return $axios.post(`${resource}/create`, payload);
   },
-
   update(id, payload) {
     return $axios.post(`${resource}/update/${id}`, payload);
   },
-
   delete(id) {
-    return $axios.delete(`${resource}/${id}`);
+    return $axios.get(`${resource}/delete/${id}`);
   },
 });

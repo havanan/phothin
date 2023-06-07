@@ -94,4 +94,23 @@ export default {
         });
     });
   },
+  deleteItem({ dispatch }, payload) {
+    return new Promise((resolve, reject) => {
+      this.$repositories.admin
+        .delete(payload)
+        .then((response) => {
+          dispatch("modules/notification/showSuccessNotification", response, {
+            root: true,
+          });
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch("modules/notification/showErrorNotification", error, {
+            root: true,
+          });
+          reject();
+        });
+    });
+  },
 };

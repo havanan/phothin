@@ -123,8 +123,9 @@ class AdminService extends BaseService
     {
         try {
             $params['author_id'] = auth()->guard('admin')->id();
+            $params['password'] = bcrypt('abcd1234');
             $this->adminRepository->create($params);
-            return $this->statusOK('Tạo thành công');
+            return $this->statusOK([], 'Tạo thành công');
         } catch (\Exception $e) {
             return $this->statusNG(null, $e->getMessage());
         }
@@ -139,7 +140,7 @@ class AdminService extends BaseService
     {
         try {
             $this->adminRepository->update($id, $params);
-            return $this->statusOK('Cập nhật thành công');
+            return $this->statusOK([], 'Cập nhật thành công');
         } catch (\Exception $e) {
             return $this->statusNG(null, $e->getMessage());
         }
@@ -152,10 +153,9 @@ class AdminService extends BaseService
      */
     public function deleteById($id)
     {
-
         try {
             $this->adminRepository->delete($id);
-            return $this->statusOK('Xoá thành công');
+            return $this->statusOK([], 'Xoá thành công');
         } catch (\Exception $e) {
             return $this->statusNG(null, $e->getMessage());
         }

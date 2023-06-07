@@ -35,6 +35,7 @@ export default {
     "~/plugins/axios",
     "~/plugins/auth",
     "~/plugins/mixin",
+    "~/plugins/VuetifyConfirm",
   ],
 
   components: true,

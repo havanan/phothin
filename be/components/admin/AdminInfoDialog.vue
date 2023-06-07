@@ -44,7 +44,7 @@
                   :readonly="action === 'show'"
                   :rules="[
                     () =>
-                      !!editedItem.name || 'Số điện thoại không được để trống',
+                      !!editedItem.phone || 'Số điện thoại không được để trống',
                   ]"
                 ></v-text-field
               ></v-col>
@@ -57,9 +57,8 @@
                   label="Chọn quyền"
                   outlined
                   class="mr-4"
-                  v-model="editedItem.role"
+                  v-model="editedItem.role_id"
                   :readonly="action === 'show'"
-                  :rules="[() => !!editedItem.role || 'Vui lòng chọn quyền']"
                 ></v-select>
               </v-col>
               <v-col cols="12" md="6">
@@ -72,9 +71,6 @@
                   class="mr-4"
                   v-model="editedItem.status"
                   :readonly="action === 'show'"
-                  :rules="[
-                    () => !!editedItem.role || 'Vui lòng chọn trạng thái',
-                  ]"
                 ></v-select>
               </v-col>
               <v-col cols="12" md="12">
@@ -100,15 +96,10 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn
-              v-if="action !== 'show'"
-              large
-              outlined
-              color="success"
-              @click="validate()"
-              :disabled="!validForm"
-              >Lưu</v-btn
+            <v-btn large color="error" outlined @click="closeDialog()"
+              >Đóng</v-btn
             >
+
             <v-btn
               v-if="action !== 'show'"
               large
@@ -117,8 +108,14 @@
               type="reset"
               >Nhập lại</v-btn
             >
-            <v-btn large color="error" outlined @click="closeDialog()"
-              >Đóng</v-btn
+            <v-btn
+              v-if="action !== 'show'"
+              large
+              outlined
+              color="success"
+              @click="validate()"
+              :disabled="!validForm"
+              >Lưu</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -203,10 +200,10 @@ export default {
     },
     async saveForm() {
       try {
-        if (this.editedItem.id) {
-          await this.postUpdate(this.editedItem);
-        } else {
+        if (this.action === "create") {
           await this.postCreate(this.editedItem);
+        } else {
+          await this.postUpdate(this.editedItem);
         }
         this.closeDialog();
       } catch (error) {}

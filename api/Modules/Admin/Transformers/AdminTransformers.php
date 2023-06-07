@@ -23,7 +23,7 @@ class AdminTransformers extends TransformerAbstract
             'email' => $entity->email,
             'phone' => $entity->phone,
             'status' => $entity->status,
-            'role' =>  $entity->role_id,
+            'role_id' =>  $entity->role_id,
             'address' =>  $entity->address,
             'note' =>  $entity->note,
             'locations' =>  $entity->locations,
