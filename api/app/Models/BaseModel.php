@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\User\Scopes\CommonScope;
+use Modules\Customer\Scopes\CommonScope;
 
 class BaseModel extends Model
 {

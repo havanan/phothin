@@ -9,7 +9,7 @@ export default function ({ $axios, error: nuxtError }) {
     $axios.setBaseURL(process.env.baseDevUrl);
   }
   if (process.server) {
-    $axios.setBaseURL(process.env.baseUrl);
+    $axios.setBaseURL(process.env.baseProductUrl);
   }
   // $axios.onResponse((onResponse) => {
   //   console.log("onResponse");

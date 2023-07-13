@@ -8,7 +8,7 @@ export default {
     baseProductUrl: process.env.BASE_PRODUCT_URL,
   },
   server: {
-    port: process.env.BACKEND_PORT || 3000,
+    port: process.env.BACKEND_PORT || 3300,
   },
   target: "static",
   head: {
